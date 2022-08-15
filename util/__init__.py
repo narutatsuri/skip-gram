@@ -7,11 +7,13 @@ checkpoint_dir = "embeddings/"
 fig_dir = "vis/"
 
 #? Parameters
+initialization_low = 0.01
+initialization_high = 0.001
 train_epochs = 500
-learning_rate = 0.01
+learning_rate = 0.001
 # Full dataset is 3360984
-docs_to_look_at = 1
-embedding_dim = 2
+docs_to_look_at = 5
+embedding_dim = 100
 window_size = 1
 save_iteration = 50
 

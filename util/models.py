@@ -44,8 +44,12 @@ class skipgram():
                         self.y_train.append(target_word)
         
         # Construct weights
-        self.U = np.random.random((len(self.vocabulary), embedding_dim))
-        self.V = np.random.random((embedding_dim, len(self.vocabulary)))
+        self.U = np.random.uniform(low=initialization_low, 
+                                   high=initialization_high, 
+                                   size=(len(self.vocabulary), embedding_dim))
+        self.V = np.random.uniform(low=initialization_low, 
+                                   high=initialization_high, 
+                                   size=(embedding_dim, len(self.vocabulary)))
         
     @staticmethod
     def softmax(x):
@@ -79,12 +83,12 @@ class skipgram():
                         self.V.T[k] -= self.alpha * (self.A * np.exp(np.dot(old_u_c, self.V.T[k])) * old_u_c)
                     else:
                         self.V.T[k] = old_v_w - self.alpha * (self.A * np.exp(np.dot(old_u_c, old_v_w)) - 1) * old_u_c
-                
+
                 loss -= np.log(np.exp(np.dot(self.U[self.X_train[j].index(1)], 
                                              self.V.T[self.y_train[j].index(1)])) * self.softmax(np.dot(self.V.T, self.U[self.X_train[j].index(1)]))[1])
                 
 
-            tqdm.write("Epoch: " + str(epoch) + ", Loss: " + str(loss))
+            tqdm.write("Epoch: " + str(epoch) + ", Loss: " + str(loss/len(self.X_train)))
             if epoch % save_iteration == 0:
                 self.alpha *= 1/( (1 + self.alpha * epoch) )
                 self.save_checkpoint(epoch)
